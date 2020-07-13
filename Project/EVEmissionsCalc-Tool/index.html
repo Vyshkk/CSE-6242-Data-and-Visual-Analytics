@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>EV Emissions Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="lib/d3.min.js"></script>
+    <script src="lib/jquery.js"></script>
+    <script src="lib/d3-tip.min.js"></script>
+</head>
+<body>
+
+<div class="main-nav">
+    <ul class="nav">
+        <li class="name">EV Emissions Calculator</li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="background.html">Background</a></li>
+        <li><a href="#">Contact</a></li>
+    </ul>
+</div>
+
+<header>
+    <img src="https://placeimg.com/200/200/tech" alt="Test image" class="profile-image">
+    <h1 class="tag name">Hello, we like Analytics.</h1>
+    <p class="tag location">We call Atlanta, Detroit, & Greenville home.</p>
+</header>
+
+<main class="flex">
+    <div class="card">
+        <h2 class="card-title"> Background</h2>
+        <p>We are engineers from across the country with a passion for data science and analytics.</p>
+		<p>Have you ever wondered how much CO2 you actually make by driving?  It is surprisingly difficult to figure out what is coming out of your tailpipe.
+		What about cars without tailpipes?  Electric Vehicles (EVs) don't emit anything directly, however, the electricty has to come from somewhere, and many
+		forms of power generation do emit CO2. This tool was created to help you understand what emissions your car is creating, including EVs, based on their
+		effeciency and power source.</p>
+        <p>We collect data from the  <a
+                href="https://www.eia.gov">
+            Energy Information Agency (EIA)</a> and represent the electricity generation and associated emissions in your state.  This is the primary source of
+			emissions for EVs</p>
+		<p>We also leverage a large database of vehicle information from <a href="https://fueleconomy.gov">fueleconomy.gov</a> for specific vehicle information.</p>
+        <ul>
+            <li>To learn more, <a href="background.html">view our process.</a></li>
+        </ul>
+        <div id="plot-loc3"></div>
+        <p>This lifetime emissions and liquid fuel or electricity cost visual allows you to see the pros and cons of EV vs. Hybrid vs. Gas vehicles in terms of
+            operating expenses and environmental impact for your state of choice. The cars shown are the same year and car type as the vehicle you selected
+            in the Vehicle: 1 dropdown. A clustering algorithm groups similar car models based on emissions and cost metrics. Your Vehicle 1
+        selection is shown as the large, bolded circle in the plot.</p>
+        <p>Experiment with different states and car models to minimize your operating costs and emissions!</p>
+	<p>This analysis makes the following assumptions about the lifetime of the vehicle</P>
+	<ul>
+		<li>8 years of use</li>
+		<li>150,000 miles</li>
+	</ul>
+    </div>
+
+    <div class="card">
+        <h2 class="card-title">Emissions in your state</h2>
+        <p>EV emissions are highly dependant on which power sources are used to generate electricity.
+            To estimate EV emissions in your state, try the following tool!</p>
+		<p>You will be able to see where power comes from in your state.
+			Some sources, such as coal and petroleum create high levels of CO2 emissions, while others such as wind and solar create none.
+			Because of the mix of fuels in each state, an EV will "create" more or less emissions based on the state it is charged in!</p>
+        <div id="state-dropdown"></div>
+        <div id="plot-loc1"></div>
+		<p>Of course, the emissions created by driving is very dependant on the car you're driving.  The tool below allows you to select some cars.
+		Based on their fuel economoy (or electrical effeciency for an EV), we can estimate how much CO2 a car makes every mile.</p>
+        <div>
+            <p style="display:inline-block;margin-right:10px";>Vehicle:1</p>
+            <div style="display:inline-block" id="cars-dropdown1"></div>
+        </div>
+        <div>
+            <p style="display:inline-block;margin-right:10px;">Vehicle:2</p>
+            <div style="display:inline-block;" id="cars-dropdown2"></div>
+        </div>
+        <div>
+            <p style="display:inline-block;margin-right:10px;">Vehicle:3</p>
+            <div style="display:inline-block" id="cars-dropdown3"></div>
+        </div>
+        <div id="plot-loc2"></div>
+       
+    </div>
+    <script src="script.js"></script>
+</main>
+<footer>
+    <ul>
+        <li><a href="https://github.gatech.edu/Keeping-It-On-The-DL/EVEmissionsCalc" target="_blank" class="social github">Github</a></li>
+    </ul>
+    <p class="copyright">Copyright 2018, Keeping it on the DL</p>
+</footer>
+</body>
+</html>
