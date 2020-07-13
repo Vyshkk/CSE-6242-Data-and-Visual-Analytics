@@ -1,0 +1,29 @@
+Q7)a)Ease to develop for developers:
+	Matlab- Matlab, is a 	numerical computing language and is more useful for technically driven data with sophisticated mathematical requirements like signal processing than analysis data.There are more functions to simplify complex calculations. Matlab provide inbuilt documentation for all toolboxes and functionalities which makes it easier to understand. But it is difficult to implement complex visualization.
+	Tableau- Easier to use. Does not require coding and faster to use. It is more ideal for graphs or tables.
+	D3- Requires complex javascript coding. Covers a wide range of visualization areas. It is compatible across different browsers.
+		
+b) Ease to maintain the visualization for developers: 
+	Tableau- The files used for graphics must be updated constantly.
+	D3- There are update functions to update the data. But since they operate on nested selections, developers will have to be familiar with the structure of the file while updating data.
+	Matlab- Refreshdata function updates the data of objects specified in figure.
+
+c) Usability of visualization developed for end users: 
+	Tableau- Requires a Tableau reader or view to access files created in tableau or will have to export the data before it can be shared. It gives the end user, the ability to interact with data using filters, grouping and other tools to get the data they need.  
+	D3- Does not require any additional software installation to view visualization. Can make interactive visualisation effectively which can be coded into the program.
+	Matlab- Can create public URL in the visualization app to share plots or can export data.
+			
+
+d) Scalability of visualization to “large” datasets: 
+	D3 has Hadoop streaming for map-reduce. 
+	Matlab- Hadoop streaming is not supported by Matlab and hence may no be quite effective
+	Tableau- Suitable for big data operations with changing datasets. It can connect to standard databases like MySQl, AmazonAWS, Hadoop..etc. But XML data cannot be read in Tableau.
+
+e) System requirements to run the visualization: 
+	Matlab- Sensor data can be sent to ThingSpeak™ from Arduino®, Raspberry Pi™, BeagleBone Black, and other hardware. For devices to communicate with ThingSpeak, they must support TCP/IP, HTTP or MQTT protocols. Thingspeak is compatible with most browsers running on Windows and Mac. Will need a paid licensed version.
+	Tableau- It requires a 64-bit processor with atleast 8Gb RAM and 15GB of minimum disk space. Can get expensive unless we use Tableau public.
+	D3-It requires a 4GB RAM and 50+GB of storage.D3 requires users to have JavaScript enabled and a browser that supports SVG.
+
+
+
+

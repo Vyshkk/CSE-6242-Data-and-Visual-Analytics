@@ -1,0 +1,4 @@
+Q3-a-2) Wins+Nominations vs Rating is a much better combination in separating good and bad rated movies. We can see that most the bad rated movies marked using red circles have also got very less number of nominations and awards. While those that got a good rating won more nominations and awards. There is a much clearer distinction of the 2 classes in this case. While in the latter case, even though some movies were made on higher budget they have received a bad rating and there is lesser distinction between the 2 classes.
+
+
+Q3-c) On the linear-scale plot of Wins+nominations vs Rating, we find that there is a larger concentration of movies that have won less than 60 nominations and awards. In the square root scale, since it is a non-linear scale, it gives equal spread of data over the entire range and reduce skewness. In addition to the above reasons, log-scale also helps accommodate data over a very large range.

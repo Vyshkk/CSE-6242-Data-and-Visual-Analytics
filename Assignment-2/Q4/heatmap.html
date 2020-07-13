@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="../lib/d3.v5.min.js"></script>
+
+    
+<div id="titl"></div>
+<div id="years"></div>
+<div id="heatmap"></div>
+
+<style>
+#titl{
+display:flex;
+justify-content:center;
+}
+#years{
+display:flex;
+justify-content:center;
+}
+#heatmap{
+display:flex;
+justify-content:center;
+}
+
+.domain{
+stroke:none}
+
+.tick line{
+display:none}
+
+
+      
+ </style> 
+
+<body>
+<script>
+ 
+d3.select("#titl")
+	.append("p")
+	.text("Visualizing Crimes in New York City")
+	.style("font-weight", 900)
+	.style("font-size","30px");
+	//.attr("class","normal")
+
+ 
+     d3.csv("heatmap.csv").then(function(data)
+{
+
+    var area=["Bronx","Brooklyn","Manhattan","Queens","Staten Island"];
+    var crime=["Assault","Burglary","Housing","Murder","Robbery","Shooting"];
+    
+    
+     var c=Object.keys(data[0]); 
+   var dat=[];
+
+
+for(i=0;i<5;i++)
+{
+if(c[i]!="Crime Type"&&c[i]!="Year")
+{data.forEach(function(d){dat.push({'area':c[i],'value':d[c[i]],'crime':d["Crime Type"],'year':d["Year"]});})
+}
+}
+
+var ys=2011;
+ 
+  var val=d3.extent(dat,function(d){if(d.year==ys){return +d.value}})  ;
+   var colorScale=d3.scaleQuantize().domain(val).range(d3.schemeGreens[9]);//["#00FFFF","#7FFFD4","#AFEEEE","#40E0D0","#48D1CC","#20B2AA","#5F9EA0","#008B8B","#008080"])
+    //colorScale.domain([m,n]);      
+     var scal1=d3.scaleOrdinal().domain([data[0]["Crime Type"],data[1]["Crime Type"],data[2]["Crime Type"],data[3]["Crime Type"],data[4]["Crime Type"],data[5]["Crime Type"]]).range([200,250,300,350,400,450]);    
+     var scal2=d3.scaleOrdinal().domain([area[0],area[1],area[2],area[3],area[4]]).range([100,150,200,250,300]);
+     //var s1=d3.scaleLinear().domain([0,5]).range([200,500]);
+    // var s2=d3.scaleLinear().domain([0,4]).range([300,500]);
+     
+    var svg = d3.select("#heatmap")
+        .append("svg")
+        .attr("width", 700)
+        .attr("height", 700)
+    
+     /*  		svg.append("svg")
+       			.append("text")
+       			.attr("x",350)
+       			.attr("y",100)
+       			.attr("text-anchor","middle")
+       			 .text("Value vs Date Graph");
+       			   svg.selectAll("p")
+       			   .append("g")
+    .attr("x", 100 )
+    .attr("y", 100)
+    .style("text-anchor", "middle")
+    .text("Title of Diagram");*/
+     
+
+  	/*svg.selectAll("rect")
+          	 .data(data)
+         	 .enter()
+         	 .append("rect")
+        	 .attr("x",function(d,i){if(d.Year==2011){return scal1(d["Crime Type"])*50}})
+       		 .attr("y",50)
+        	 .attr("width", 50)
+             .attr("height", 50)
+             .style("fill",function(d){if(d.Year==2011){return colorScale(d.Bronx)}});*/ 
+           
+
+  var rectangular=svg.append('g')
+  			 .selectAll("rect")
+          	 .data(dat)
+         	 .enter()
+         	 .append("rect")
+        	 .attr("x",function(d){if(d.year==ys){return scal1(d.crime)}})
+       		 .attr("y",function(d){if(d.year==ys){return scal2(d.area)}})
+        	 .attr("width",function(d){if(d.year==ys){return 50}})
+             .attr("height",function(d){if(d.year==ys){return 50}})
+             .style("fill",function(d){if(d.year==ys){return colorScale(d.value)}})
+             .text(function(d){return d.value;});
+             
+var axis1=d3.axisBottom(scal1);
+var axis2=d3.axisLeft(scal2);
+
+									svg.append('g')
+											.attr("transform", "translate("+(15)+","+(375)+")")
+											.call(axis1)
+										//	.attr("class","axis1")
+									svg.select("path").attr("class",".domain").attr("stroke",'none');
+								
+									svg.selectAll("text").attr("transform","rotate(-90)");
+									svg.append("text")
+										.attr("transform","translate("+550+","+(375)+")")
+										.style("text-anchor", "middle")
+										.style("font-size","12px")
+										.style("font-weight","bold")
+										.text("Crime Type");		
+											
+											
+											
+										
+									svg.append('g')
+											.attr("transform", "translate(" +(175) +","+(25)+")")
+											.style("text-anchor","middle")
+											.call(axis2)
+									svg.select("path").attr("class",".domain");
+									svg.append("text")
+										.attr("transform","translate("+150+","+(100)+")")
+										.style("text-anchor", "middle")
+										.style("font-size","12px")
+										.style("font-weight","bold")
+										.text("Borough");
+									//svg.selectAll("text").attr("transform","rotate(-90)");
+									
+      
+  legend();          
+       
+function ub(dat)
+{		
+			val=d3.extent(dat,function(d){if(d.year==ys){return +d.value}})  ;
+   			colorScale=d3.scaleQuantize().domain(val).range(d3.schemeGreens[9]);
+   
+             rectangular.transition().duration(50)
+             .attr("x",function(d){if(d.year==ys){return scal1(d.crime)}})
+       		 .attr("y",function(d){if(d.year==ys){return scal2(d.area)}})
+        	 .attr("width",function(d){if(d.year==ys){return 50}})
+             .attr("height",function(d){if(d.year==ys){return 50}})
+             .style("fill",function(d){if(d.year==ys){return colorScale(d.value)}})
+          //   .text(function(d){return d.value});
+             
+             
+   			g.remove();
+              legend();
+           
+           } ; 
+           
+   
+
+var years=["2011","2012","2013","2014","2015"];
+var select =//d3.select("#heatmap")
+d3.select("#years")
+
+    .append("select")
+  	.attr('class','select')
+ // 	.attr('transform', 'translate(' + (460) + ',' + (100) + ')')
+    .on('change',onchange);
+    
+    var options = select
+  .selectAll('option')
+	.data(years)
+	.enter()
+	.append('option')
+	.style("top",50)
+	.text(function (d) { return d; });
+		
+		function onchange() {
+	selectValue = d3.select('select').property('value');
+		ys=selectValue;
+		ub(dat)
+			
+		};
+
+
+	
+var x;var g;
+function legend()
+{  val=d3.extent(dat,function(d){if(d.year==ys){return +d.value}})  ;
+   colorScale=d3.scaleQuantize().domain(val).range(d3.schemeGreens[9]);
+   
+ x = d3.scaleLinear().domain(val).rangeRound([60, 400])
+//g.exit().remove();
+
+g = svg.append("g")
+   // .attr("class", "key")
+    .attr("transform", "translate("+(100)+","+(520)+")");
+var b=[];
+g.selectAll("rect")
+  .data(colorScale.range().map(function(d,i) {
+     // console.log(d)
+      d = colorScale.invertExtent(d);
+    //  if (d[0] == null) d[0] = x.domain()[0];
+     // if (d[1] == null) d[1] = x.domain()[1];
+      b.push(d[0]);
+      if(i==8){b.push(d[1]);}
+      //console.log(b)
+      return d;
+    }))
+    .enter()
+    .append("rect")
+    .attr("height", 20)
+    .attr("x", function(d) { return x(d[0]); })
+    .attr("y",-20)
+    .attr("width", function(d) { return x(d[1]) - x(d[0]); })
+    .attr("fill", function(d) { return colorScale(d[0]); });
+
+g.append("text")
+    .attr("class", "caption")
+    .attr("x",-50)				
+    .attr("y", -35)
+    .attr("fill", "#000")
+    .attr("text-anchor", "start")
+    .attr("font-weight", "bold")
+    .text("Number of Crimes");
+  
+   for(i=0;i<b.length;i++)
+{b[i]=b[i].toFixed(1);
+}   
+  
+//console.log(b)
+g.append("g")
+	.call(d3.axisBottom(x).tickValues(b));
+   // .tickSize(13)
+   // .tickFormat(function(x, i) { return i ? x : x + "%"; })
+  g.append("g")  
+    .attr("transform", "translate("+(140)+","+(430)+")")
+  	.select(".domain")
+    .remove();
+    
+    
+    }
+
+
+
+
+
+
+        
+        });
+        
+</script>
+</body>
+</html>

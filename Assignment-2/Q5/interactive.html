@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<script src="../lib/d3.v5.min.js"></script>
+
+<style>
+
+</style>
+
+<body>
+<script> var data=[{country: 'Bangladesh', population_2012: 105905297, growth: {year_2013:42488 , year_2014:934 , year_2015:52633 , year_2016:112822 , year_2017:160792}},
+        {country: 'Ethopia', population_2012: 75656319, growth: {year_2013:1606010 , year_2014:1606705 , year_2015:1600666 , year_2016:1590077 , year_2017:1580805}},
+        {country: 'Kenya', population_2012: 33007327, growth: {year_2013:705153 , year_2014:703994 , year_2015:699906 , year_2016:694295 , year_2017:687910}},
+        {country: 'Afghanistan', population_2012: 23280573, growth: {year_2013:717151 , year_2014:706082 , year_2015:665025 , year_2016:616262 , year_2017:573643}},
+        {country: 'Morocco', population_2012: 13619520, growth: {year_2013:11862 , year_2014:7997 , year_2015:391 , year_2016:-8820 , year_2017:-17029}}];</script>
+
+
+<script>
+
+   var svg = d3.select("body")
+        .append("svg")
+        .attr("width", 1000)
+        .attr("height", 900);
+      
+      //data.forEach(function(d){console.log(d.country)})
+      var pop=[];
+      for(i=0;i<data.length;i++)
+      {pop[i]=data[i].population_2012;
+      pop[i]=pop[i]+data[i].growth.year_2013+data[i].growth.year_2014+data[i].growth.year_2015+data[i].growth.year_2016+data[i].growth.year_2017;
+      data[i].cum=pop[i];
+      }
+      
+    var dat=data;  
+      dat.sort(function(x,y){return d3.ascending(x.cum,y.cum);});
+      var country=[];
+      dat.forEach(function(d,i){country[i]=d.country;});
+      
+      xscale=d3.scaleLinear().domain(d3.extent(pop)).range([70,500]);
+      yscale=d3.scaleOrdinal().domain(country).range([400,320,240,160,80]);
+     
+      
+        
+        var chart=svg.selectAll("g")
+					.data(dat)
+					.enter()
+					.append("g");
+					
+					chart
+					.append("rect")
+					.attr("x",70)
+					.attr("y",function(d){return yscale(d.country)})
+					.attr("height",50)
+					.attr("width",function(d){return xscale(d.cum)})
+					.attr("fill",'grey')
+				
+					.on('mouseenter',function(actual,k){
+							d3.select(this).attr("fill",'red');
+							temp=perc[k];console.log(k)
+							
+							x=d3.scaleOrdinal().domain(years).range([700,750,800,850,900]);
+							y=d3.scaleLinear().domain(d3.extent(temp)).range([400,200]);
+									
+							linegen=d3.line()
+											.x(function(d,i){return x(years[i])})
+											.y(function(d,i){return Math.round(y(temp[i]))});
+										
+								path=svg.append("path")
+										.datum(perc[k])
+										//.enter()
+										//.append("path")
+										.attr("d",linegen)
+										.attr("stroke", "blue")
+										.attr("stroke-linejoin", "round")
+										.attr("stroke-width", 1.5)
+										.attr("fill",'none');
+
+									
+									
+									axis1=d3.axisBottom(x);
+									axis2=d3.axisLeft(y);
+								g1=	svg.append('g')
+											.attr("transform", "translate(0,"+(400)+")")
+											.call(axis1);
+								
+								g3=svg	.append("text")
+										.attr("transform","translate("+900+","+440+")")
+										.style("text-anchor", "middle")
+										.style("font-size","12px")
+										.text("Year");
+								g2=	svg.append('g')
+											.attr("transform", "translate(" +(700) + ",0)")
+											.call(axis2);
+								g4=	svg.append("text")
+										.attr("transform","translate("+680+","+(190)+")")
+										.style("text-anchor", "middle")
+										.style("font-size","12px")
+										.text("Pct%");
+							
+					})
+					.on('mouseleave',function(actual,i){
+							d3.select(this).attr("fill",'grey');
+							path.remove();
+						//	svg.selectAll("g")
+								g1.remove();g2.remove();g3.remove();g4.remove();
+								
+							
+							});	
+							
+					chart
+					.append("text")
+					.attr("x",105)
+					.attr("y",function(d){return yscale(d.country)+30})
+				//	.attr("dy", ".90em")
+					.text(function(d){return d.cum;})
+					.attr("fill","black")
+					.attr("text-anchor","middle");	
+							
+	/*	chart.append("text")
+			.attr("x",75)
+			.attr("y",80)
+			.attr("dy", ".35em")
+			.text("abc");	*/	
+
+var path,linegen,axis1,axis2,x,y,temp,g1,g2;
+var xaxis=d3.axisBottom(xscale);
+var yaxis=d3.axisLeft(yscale);
+//console.log(yaxis)
+svg.append('g')
+	.attr("transform", "translate(" +(65) + ","+(25)+")")
+	.call(yaxis)
+svg.selectAll("line").attr("stroke",'none');	
+svg.select("path").attr("class",".domain").attr("stroke",'none');
+	
+var perc=[];
+for(i=0;i<data.length;i++)
+{ perc[i]=[];
+var temp=data[i].population_2012;
+	perc[i][0]=(data[i].growth.year_2013/temp)*100;
+	perc[i][1]=(data[i].growth.year_2014/(temp+data[i].growth.year_2013))*100;
+	perc[i][2]=(data[i].growth.year_2015/(temp+data[i].growth.year_2014+data[i].growth.year_2013))*100;
+	perc[i][3]=(data[i].growth.year_2016/(temp+data[i].growth.year_2015+data[i].growth.year_2014+data[i].growth.year_2013))*100;
+	perc[i][4]=(data[i].growth.year_2017/(temp+data[i].growth.year_2016+data[i].growth.year_2015+data[i].growth.year_2014+data[i].growth.year_2013))*100;
+}
+
+//console.log(data)
+
+temp=perc[4];
+var years=["2013","2014","2015","2016","2017"];var j=3;
+
+
+/*
+var linegen=d3.line()
+				.x(function(d,i){return x(years[i])})
+				.y(function(d,i){return Math.round(y(temp[i]))});
+										
+svg.append("path")
+	.datum(temp)
+	//.enter()
+	//.append("path")
+	.attr("d",linegen)
+	.attr("stroke", "steelblue")
+	.attr("stroke-linejoin", "round")
+	.attr("stroke-width", 1.5)
+	.attr("fill",'none');
+
+var axis1=d3.axisBottom(x);
+var axis2=d3.axisLeft(y);
+svg.append('g')
+	.attr("transform", "translate(0,"+(400)+")")
+	.call(axis1);
+svg.append('g')
+	.attr("transform", "translate(" +(600) + ",0)")
+	.call(axis2);
+			*/
+
+
+
+
+
+
+</script>
+</body>
+</html>

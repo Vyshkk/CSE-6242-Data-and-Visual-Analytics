@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<title>D3 Test</title>
+      <script src="../lib/d3.v5.min.js"></script>
+   
+   <style>
+   .legend{font-size:12px;
+   }
+   
+.pagebreak { page-break-before: always; }
+   </style>
+
+<div id="area1"
+class="pagebreak"></div>
+<div id="area2"
+class="pagebreak"></div>
+<div id="area3"
+class="pagebreak"></div>
+<div id="area4"
+class="pagebreak"></div>
+<div id="area5"
+class="pagebreak"></div>
+ 
+   
+   <body>
+     
+     <script>   
+     
+     
+
+d3.csv("movies.csv").then(function(data)
+{
+
+var svg1 = d3.select("#area1")
+            .append("svg")
+            .attr("width", 600)
+            .attr("height", 600);
+
+ var scalx=d3.scaleLinear().domain([0,10]).range([50,450])
+ var scaly=d3.scaleLinear().domain([0,270]).range([450,50])
+
+
+
+var symb={"cross":d3.symbol().type(d3.symbolCross).size(50),
+"circle":d3.symbol().type(d3.symbolCircle).size(50)};
+var path=svg1.selectAll("path")
+			.data(data)
+   			.enter()
+ 		  	.append("path")
+		   	.attr("d",function(d){if(d.IsGoodRating==1){return symb.cross();}else {return symb.circle();}}) 	
+		   	.style("stroke",function(d){if(d.IsGoodRating==1){return 'blue';} else {return 'red';}}) 
+		   	.style("fill",'transparent')
+		   // .attr("transform",function(d){return "translate("+d[0]+","+d[1]+")";});
+		    .attr("transform",function(d){return "translate(" +scalx(d.Rating)+","+scaly(d.WinsNoms)+")";})
+		 //   .attr("data-legend",function(d){symb});
+
+var xaxis=d3.axisBottom(scalx);
+var yaxis=d3.axisLeft(scaly);
+svg1.append("g")
+   .attr("transform", "translate(0,"+(455)+ ")")
+   .call(xaxis)
+svg1.append("text")
+	.attr("transform","translate("+440+","+(440)+")")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("Rating");
+   
+
+svg1.append("g")
+	.attr("transform", "translate(" +(50) + ",0)")
+	.call(yaxis)
+svg1.append("text")
+	.attr("transform","translate("+(70)+","+(50)+")rotate(-90)")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("WinsNoms");
+	
+svg1.append("text")
+        .attr("x", 250)             
+        .attr("y", 40)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px")  
+        .text("Wins+Nominations vs Rating");
+        
+    var legend1 = svg1.append("g");
+
+    var x=460;       
+            
+      	  legend1.append('path')
+        		.attr('d',symb.cross())
+                .attr('fill', 'transparent')
+                .attr('stroke','blue')
+                .attr('stroke-width', 1)
+             	.attr('transform', 'translate(' + (x) + ',' + (60) + ')');
+         legend1.append("text")
+             	.attr("x",x+20)
+             	.attr("y",65)
+             	.text("good rating");
+  
+        legend1.append('path')
+        		.attr('d',symb.circle())
+                .attr('fill', 'transparent')
+                .attr('stroke','red')
+                .attr('stroke-width', 1)
+             	 .attr('transform', 'translate(' + (460) + ',' + (80) + ')');
+        legend1.append("text")
+             	.attr("x",x+20)
+             	.attr("y",85)
+             	.text("bad rating");
+        
+
+
+
+
+      		
+ var svg2 = d3.select("#area2")
+            .append("svg")
+            .attr("width", 600)
+            .attr("height",600);
+
+ var scalx2=d3.scaleLinear().domain([0,10]).range([70,470])
+ var scaly2=d3.scaleLinear().domain([50000,200000000]).range([450,50])
+
+var symb={"cross":d3.symbol().type(d3.symbolCross).size(50),
+"circle":d3.symbol().type(d3.symbolCircle).size(50)};
+var path2=svg2.selectAll("path")
+			.data(data)
+   			.enter()
+ 		  	.append("path")
+		   	.attr("d",function(d){if(d.IsGoodRating==1){return symb.cross();}else {return symb.circle();}}) 	
+		   	.style("stroke",function(d){if(d.IsGoodRating==1){return 'blue';} else {return 'red';}}) 
+		   	.style("fill",'transparent')
+		    .attr("transform",function(d){return "translate(" +scalx2(d.Rating)+","+scaly2(d.Budget)+")";});
+
+var xaxis2=d3.axisBottom(scalx2);
+var yaxis2=d3.axisLeft(scaly2);
+svg2.append("g")
+   .attr("transform", "translate(0,"+(455)+ ")")
+   .call(xaxis2)
+svg2.append("text")
+	.attr("transform","translate("+440+","+(440)+")")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("Rating");
+   
+
+svg2.append("g")
+	.attr("transform", "translate("+(70)+",0)")
+	.call(yaxis2)
+svg2.append("text")
+	.attr("transform","translate("+(100)+","+(50)+")rotate(-90)")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("Budget");
+	
+svg2.append("text")
+        .attr("x", 250)             
+        .attr("y", 40)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px")  
+        .text("Budget vs Rating");
+        
+        
+        
+ var legend2 = svg2.append("g");       
+            
+      	  legend2.append('path')
+        		.attr('d',symb.cross())
+                .attr('fill', 'transparent')
+                .attr('stroke','blue')
+                .attr('stroke-width', 1)
+             	.attr('transform', 'translate(' + (x) + ',' + (60) + ')');
+         legend2.append("text")
+             	.attr("x",x+20)
+             	.attr("y",65)
+             	.text("good rating");
+  
+        legend2.append('path')
+        		.attr('d',symb.circle())
+                .attr('fill', 'transparent')
+                .attr('stroke','red')
+                .attr('stroke-width', 1)
+             	 .attr('transform', 'translate(' + (460) + ',' + (80) + ')');
+        legend2.append("text")
+             	.attr("x",x+20)
+             	.attr("y",85)
+             	.text("bad rating");      
+        
+	});
+	
+
+
+d3.csv("movies.csv").then(function(data)
+{
+
+var svg3 = d3.select("#area3")
+            .append("svg")
+            .attr("width", 600)
+            .attr("height", 600);
+
+ var scalx=d3.scaleLinear().domain([0,10]).range([50,450])
+ var scaly=d3.scaleLinear().domain([30,982571]).range([450,50])
+
+
+//data.forEach(function(d){if(d.IsGoodRating==1){console.log(scaly(d.Rating))}})
+
+var sscale=d3.scaleLinear().domain([0,270]).range([30,80]);
+//data.forEach(function(d){return console.log(sscale(d.WinsNoms))})
+//var cr=d3.symbol().type(d3.symbolCross).size(function(d){return sscale(d.WinsNoms)});
+//var ci=d3.symbol().type(d3.symbolCircle).size(function(d){return sscale(d.WinsNoms)});
+
+var symb={"cross":d3.symbol().type(d3.symbolCross).size(50),
+"circle":d3.symbol().type(d3.symbolCircle).size(50)};
+
+var path=svg3.selectAll("path")
+			.data(data)
+   			.enter()
+ 		  	.append("path")
+		   	.attr("d",function(d,i){ if(d.IsGoodRating==1){return symb.cross(d);}
+		   	else {return symb.circle(d);}
+		   	 }) 	
+		   	.style("stroke",function(d){if(d.IsGoodRating==1){return 'blue';} else {return 'red';}}) 
+		   	.style("fill",'transparent')
+		   // .attr("transform",function(d){return "translate("+d[0]+","+d[1]+")";});
+		    .attr("transform",function(d){return "translate(" +scalx(d.Rating)+","+scaly(d.Votes)+")";});
+
+var xaxis=d3.axisBottom(scalx);
+var yaxis=d3.axisLeft(scaly);
+svg3.append("g")
+   .attr("transform", "translate(0,"+(455)+ ")")
+   .call(xaxis)
+svg3.append("text")
+	.attr("transform","translate("+440+","+(440)+")")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("Rating");
+   
+
+svg3.append("g")
+	.attr("transform", "translate(" +(50) + ",0)")
+	.call(yaxis)
+svg3.append("text")
+	.attr("transform","translate("+(70)+","+(50)+")rotate(-90)")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("Votes");
+	
+svg3.append("text")
+        .attr("x", 250)             
+        .attr("y", 40)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px")  
+        .text("Votes vs Rating sized by Wins+Nominations");
+ 
+     var legend3 = svg3.append("g");
+
+    var x=460;       
+            
+      	  legend3.append('path')
+        		.attr('d',symb.cross())
+                .attr('fill', 'transparent')
+                .attr('stroke','blue')
+                .attr('stroke-width', 1)
+             	.attr('transform', 'translate(' + (x) + ',' + (60) + ')');
+         legend3.append("text")
+             	.attr("x",x+20)
+             	.attr("y",65)
+             	.text("good rating");
+  
+        legend3.append('path')
+        		.attr('d',symb.circle())
+                .attr('fill', 'transparent')
+                .attr('stroke','red')
+                .attr('stroke-width', 1)
+             	 .attr('transform', 'translate(' + (460) + ',' + (80) + ')');
+        legend3.append("text")
+             	.attr("x",x+20)
+             	.attr("y",85)
+             	.text("bad rating");
+ 
+ 
+ });	
+ 
+ 
+
+
+ 
+     d3.csv("movies.csv").then(function(data)
+{
+
+
+
+var svg4 = d3.select("#area4")
+            .append("svg")
+            .attr("width", 600)
+            .attr("height", 600);
+
+ var scalx=d3.scaleLinear().domain([0,10]).range([50,450])
+//var scaly=d3.scaleLinear().domain([0,270]).range([450,50])
+  var newscale1=d3.scaleSqrt().domain([0,270]).range([450,50]);
+  //newscale.clamp(true);
+
+//data.forEach(function(d){if(d.IsGoodRating==1){console.log(newscale(d.WinsNoms))}})
+
+
+var symb={"cross":d3.symbol().type(d3.symbolCross).size(50),
+"circle":d3.symbol().type(d3.symbolCircle).size(50)};
+var path=svg4.selectAll("path")
+			.data(data)
+   			.enter()
+ 		  	.append("path")
+		   	.attr("d",function(d){if(d.IsGoodRating==1){return symb.cross();}else {return symb.circle();}}) 	
+		   	.style("stroke",function(d){if(d.IsGoodRating==1){return 'blue';} else {return 'red';}}) 
+		   	.style("fill",'transparent')
+		   // .attr("transform",function(d){return "translate("+d[0]+","+d[1]+")";});
+		    .attr("transform",function(d){return "translate(" +scalx(d.Rating)+","+newscale1(d.WinsNoms)+")";});
+
+var xaxis=d3.axisBottom(scalx);
+var yaxis=d3.axisLeft(newscale1);
+svg4.append("g")
+   .attr("transform", "translate(0,"+(455)+ ")")
+   .call(xaxis)
+svg4.append("text")
+	.attr("transform","translate("+440+","+(440)+")")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("Rating");
+   
+
+svg4.append("g")
+	.attr("transform", "translate(" +(50) + ",0)")
+	.call(yaxis)
+svg4.append("text")
+	.attr("transform","translate("+(70)+","+(50)+")rotate(-90)")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("WinsNoms");
+	
+svg4.append("text")
+        .attr("x", 250)             
+        .attr("y", 40)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px")  
+        .text("Wins+Nominations (square-root-scaled) vs Rating");
+
+     var legend4 = svg4.append("g");
+
+    var x=460;       
+            
+      	  legend4.append('path')
+        		.attr('d',symb.cross())
+                .attr('fill', 'transparent')
+                .attr('stroke','blue')
+                .attr('stroke-width', 1)
+             	.attr('transform', 'translate(' + (x) + ',' + (60) + ')');
+         legend4.append("text")
+             	.attr("x",x+20)
+             	.attr("y",65)
+             	.text("good rating");
+  
+        legend4.append('path')
+        		.attr('d',symb.circle())
+                .attr('fill', 'transparent')
+                .attr('stroke','red')
+                .attr('stroke-width', 1)
+             	 .attr('transform', 'translate(' + (460) + ',' + (80) + ')');
+        legend4.append("text")
+             	.attr("x",x+20)
+             	.attr("y",85)
+             	.text("bad rating");
+
+
+
+
+
+var svg2 = d3.select("#area5")
+            .append("svg")
+            .attr("width", 600)
+            .attr("height", 600);
+
+ //var scalx=d3.scaleLinear().domain([0,10]).range([50,450])
+//var scaly=d3.scaleLinear().domain([0,270]).range([450,50])
+  var newscale2=d3.scaleLog().domain([1,270]).range([450,50]);
+  newscale2.clamp(true);
+
+//data.forEach(function(d){if(d.IsGoodRating==1){console.log(newscale(d.WinsNoms))}})
+
+
+//var symb={"cross":d3.symbol().type(d3.symbolCross).size(50),
+//"circle":d3.symbol().type(d3.symbolCircle).size(50)};
+var path=svg2.selectAll("path")
+			.data(data)
+   			.enter()
+ 		  	.append("path")
+		   	.attr("d",function(d){if(d.IsGoodRating==1){return symb.cross();}else {return symb.circle();}}) 	
+		   	.style("stroke",function(d){if(d.IsGoodRating==1){return 'blue';} else {return 'red';}}) 
+		   	.style("fill",'transparent')
+		   // .attr("transform",function(d){return "translate("+d[0]+","+d[1]+")";});
+		    .attr("transform",function(d){return "translate(" +scalx(d.Rating)+","+newscale2(d.WinsNoms)+")";});
+
+var xaxis=d3.axisBottom(scalx);
+var yaxis=d3.axisLeft(newscale2);
+svg2.append("g")
+   .attr("transform", "translate(0,"+(455)+ ")")
+   .call(xaxis)
+svg2.append("text")
+	.attr("transform","translate("+440+","+(440)+")")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("Rating");
+   
+
+svg2.append("g")
+	.attr("transform", "translate(" +(50) + ",0)")
+	.call(yaxis)
+svg2.append("text")
+	.attr("transform","translate("+(70)+","+(50)+")rotate(-90)")
+	.style("text-anchor", "middle")
+	.style("font-size","12px")
+	.text("WinsNoms");
+	
+svg2.append("text")
+        .attr("x", 250)             
+        .attr("y", 40)
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px")  
+        .text("Wins+Nominations (log-scaled) vs Rating");
+        
+        
+       var legend2 = svg2.append("g");
+
+    var x=460;       
+            
+      	  legend2.append('path')
+        		.attr('d',symb.cross())
+                .attr('fill', 'transparent')
+                .attr('stroke','blue')
+                .attr('stroke-width', 1)
+             	.attr('transform', 'translate(' + (x) + ',' + (60) + ')');
+         legend2.append("text")
+             	.attr("x",x+20)
+             	.attr("y",65)
+             	.text("good rating");
+  
+        legend2.append('path')
+        		.attr('d',symb.circle())
+                .attr('fill', 'transparent')
+                .attr('stroke','red')
+                .attr('stroke-width', 1)
+             	 .attr('transform', 'translate(' + (460) + ',' + (80) + ')');
+        legend2.append("text")
+             	.attr("x",x+20)
+             	.attr("y",85)
+             	.text("bad rating");      
+        
+        
+        
+        
+        
+        
+        });
+         
+ 
+ 
+	
+	
+	
+</script>
+</body>
+</html>

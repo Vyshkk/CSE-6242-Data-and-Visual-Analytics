@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+<script src="../lib/d3.v5.min.js"></script>
+<script src="../lib/d3-scale-chromatic.v1.min.js"></script>
+<script src="../lib/topojson.v2.min.js"></script>
+<script src="../lib/d3-tip.min.js"></script>
+
+</head>
+<style>
+
+
+div.tooltip {	
+    position: absolute;			
+    text-align:start;			
+    width: 140px;					
+    height: 80px;					
+    padding: 2px;				
+    font: 12px sans-serif;		
+    background: lightsteelblue;	
+    border: 0px;		
+    border-radius: 8px;			
+    pointer-events: none;			
+}
+.hidden {
+  display: none;
+}
+</style>
+<body>
+<script>
+
+
+	d3.select("body")
+	.append("p")
+	.text("Choropleth Map of County Data")
+	.style("font-weight", 900)
+	.style("font-size","30px")
+	//.attr("class","normal")
+	//.style("color","red")
+	//.attr("text-anchor","middle");
+	.style("text-align","center")
+	.attr("transform","translate("+(200)+","+(30)+")")
+	//.attr("x",200)
+	//.attr("y",40);
+	
+	
+var svg=d3.select("body")
+			.append("svg")
+			.attr("width",1000)
+			.attr("height",700);
+			
+
+				
+var path = d3.geoPath();
+var unemployment = d3.map();var names=d3.map();var namec=d3.map();var pop=d3.map();var inc=d3.map();
+var b=d3.range(0,30,30/9);var i;
+for(i=0;i<b.length;i++)
+{b[i]=b[i].toFixed(1);
+}
+		
+		var colorScale=d3.scaleThreshold().domain(d3.range(0,30,30/9)).range(d3.schemeReds[9]);
+		var x = d3.scaleLinear().domain([0, 30]).rangeRound([60, 260])
+		
+		
+var g = svg.append("g")
+  		  .attr("class", "key")
+		.attr("transform", "translate("+(950)+","+(50)+")");
+    
+g.selectAll("rect")
+  .data(colorScale.range().map(function(d) {
+      d = colorScale.invertExtent(d);
+      if (d[0] == null) d[0] = x.domain()[0];
+      if (d[1] == null) d[1] = x.domain()[1];
+      //console.log(d)
+      return d;
+    }))
+    .enter()
+    .append("rect")
+    .attr("height", function(d) { return x(d[1]) - x(d[0]); })
+    .attr("y", function(d) { return x(d[0]); })
+    .attr("width", 8)
+    .attr("fill", function(d) { return colorScale(d[0]); });
+
+g.append("text")
+    .attr("class", "caption")
+    .attr("x",-10)				
+    .attr("y", 30)
+    .attr("fill", "#000")
+    .attr("text-anchor", "start")
+    .attr("font-weight", "bold")
+    .text("Poverty rate");
+ 
+
+g.call(d3.axisRight(x)
+    .tickSize(13)
+    .tickFormat(function(x, i) { return i ? x : x + "%"; })
+    .tickValues(b))
+  	.select(".domain")
+    .remove();
+
+
+var tooltip = d3.select("body").append("div")	
+   .attr("class", "tooltip")
+   .attr("opacity",0);
+
+
+//var names=[];    
+var promises = [ d3.json("us.json"),d3.csv("county_poverty.csv",function(d){unemployment.set(d.CensusId,d.Poverty);names.set(d.CensusId,d.State);
+namec.set(d.CensusId,d.County);   }),d3.csv("county_detail.csv",function(d){pop.set(d.CensusId,d.TotalPop);inc.set(d.CensusId,d.IncomePerCap);})]
+//names.push({"id":d.id,"state":d.State,"county":d.County});}),
+//d3.csv("county_detail.csv",function(d){names.push({"pop":d.TotalPop,"inc":d.IncomePerCap});})   ]
+//
+
+
+Promise.all(promises).then(ready)
+function ready([us])
+{ 	 
+svg.append("g")
+		.attr("fill",'none')
+		.selectAll("path")
+		.data(topojson.feature(us, us.objects.counties).features)
+		.enter()
+		.append("path")
+		.attr("fill", function(d) {d.rate=unemployment.get(d.id);return colorScale(d.rate); })
+		.attr("d", path)
+		.attr("transform","translate(0,"+(-20)+")")
+                    
+     	.on("mouseenter",function(d) {     
+
+       	 d.state=names.get(d.id);d.county=namec.get(d.id);d.pop=pop.get(d.id);d.inc=inc.get(d.id);
+               tooltip.attr("class","tooltip")
+               			.style("opacity",.9);		
+            tooltip.html(
+            	"State: "+d.state+"<br/>County: "+d.county+"<br/>Poverty Rate:"+d.rate+"%"+"<br/>Total Population:"+d.pop+"<br/>Income per Capita:"+d.inc  )	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+            })	
+        .on("mouseout", function(d) {
+        	tooltip.append("div");
+            tooltip.attr("class","hidden");        });
+      
+
+
+   
+      svg.append("path")
+      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+      .attr("fill",'none')
+      .attr("stroke",'#fff')
+       .attr("stroke-linejoin",'round')   
+       .attr("d", path);
+    
+
+}
+
+
+
+
+</script>
+</body>
+</html>
