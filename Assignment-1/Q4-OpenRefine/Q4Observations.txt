@@ -1,0 +1,6 @@
+c.i.a	47
+c.i.b	Newly created-4
+c.ii	metaphone-3-569 clusters
+c.iii	if(isNull(value),'Unbranded',value)
+c.iv	if(value>100,1,0)
+c.v	if(or(contains('value','offer'),contains('value','discount'),contains('value','sale')),1,0)
