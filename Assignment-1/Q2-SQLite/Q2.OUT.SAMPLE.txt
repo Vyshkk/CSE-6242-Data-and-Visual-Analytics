@@ -1,0 +1,61 @@
+movie_cast  movies    
+~~~~~
+999
+9999
+~~~~~
+an_index    another_index   a_third_index
+~~~~~
+prop
+99.9
+~~~~~
+id,name,score
+7979797979,A Movie Title,99
+7979797979,A Movie Title,99
+7979797979,A Movie Title,99
+7979797979,A Movie Title,99
+7979797979,A Movie Title,99
+7979797979,A Movie Title,99
+7979797979,A Movie Title,99
+~~~~~
+cast_id,cast_name,movie_count
+999999999,Joe Anyperson,9
+999999999,Joe Anyperson,9
+999999999,Joe Anyperson,9
+999999999,Joe Anyperson,9
+999999999,Joe Anyperson,9
+~~~~~
+cast_id,cast_name,average_score
+999999999,Joe Anyperson,77.7777777
+999999999,Joe Anyperson,77.7777777
+999999999,Joe Anyperson,77.7777777
+999999999,Joe Anyperson,77.7777777
+999999999,Joe Anyperson,77.7777777
+999999999,Joe Anyperson,77.7777777
+999999999,Joe Anyperson,77.7777777
+999999999,Joe Anyperson,77.7777777
+999999999,Joe Anyperson,77.7777777
+999999999,Joe Anyperson,77.7777777
+~~~~~
+0,cast_member_id1,integer,,,0
+1,cast_member_id2,integer,,,0
+2,movie_count,,0,,
+3,average_movie_score,,0,,
+99.9999999999999
+~~~~~
+cast_id,cast_name,collaboration_score
+999999999,Joe Anyperson,66.6666667
+999999999,Joe Anyperson,66.6666667
+999999999,Joe Anyperson,66.6666667
+999999999,Joe Anyperson,66.6666667
+999999999,Joe Anyperson,66.6666667
+~~~~~
+count_overview
+99
+~~~~~
+id
+99
+99
+99
+...
+99
+~~~~~
