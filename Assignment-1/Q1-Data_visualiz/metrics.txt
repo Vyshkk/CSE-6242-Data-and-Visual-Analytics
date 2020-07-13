@@ -1,0 +1,5 @@
+Average path length- 2.729- The average of the shortest path from every node to every other node.For every node there is average of a shortest path from that node to every other node. Thus, for every node, the sum of these divided by the total number of nodes gives the average path length. Usually, a low value of average path length is desired; like for a network it could mean the number of clicks to reach a destination and so on.
+
+Diameter of Graph- 10- longest shortest path between 2 nodes. From every node every other node has a shortest path to connect to it. Of all the pair of nodes that we can possibly connect, the one that is the longest one among all the shortest path is termed as diameter of the graph.
+
+Average node degree- 1.584- For every node there may be incoming or outgoing edges incase of directed graph;this is called degree of a node. The average of all incoming and outgoing edges combined for all the nodes is referred to as average node degree.
