@@ -1,0 +1,19 @@
+Parameter, Value
+1_Mean Absolute Error,1656.147651
+1_Root Mean Squared Error,2456.983209
+1_Relative Absolute Error,0.276606
+1_Relative Squared Error,0.089608
+1_Coefficient of Determination,0.910392
+2_Mean Absolute Error,1265.001752
+2_Root Mean Squared Error,1783.328763
+2_Relative Absolute Error,0.253181
+2_Relative Squared Error,0.067781
+2_Coefficient of Determination,0.932219
+3_Mean Absolute Error for 1st fold,1528.501585
+3_Mean Absolute Error for 2nd fold,1770.668061
+3_Mean Absolute Error for 3rd fold,2061.716008
+3_Mean Absolute Error for 4th fold,2285.486838
+3_Relative Squared Error for 1st fold,0.8515
+3_Relative Squared Error for 2nd fold,0.205015
+3_Relative Squared Error for 3rd fold,0.092194
+3_Relative Squared Error for 4th fold,0.138826

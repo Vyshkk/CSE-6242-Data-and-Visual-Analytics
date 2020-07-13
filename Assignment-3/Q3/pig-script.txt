@@ -1,0 +1,8 @@
+trigrams = LOAD 's3://cse6242-2019spring-trigrams-big/*' AS (trigram:chararray, year:int, occurrences:int, books:int);
+trigrams1 = FILTER trigrams BY (occurrences>=400) AND (books>=15);
+trigrams2 = FOREACH trigrams1 GENERATE trigram,((double)occurrences/(double)books) AS avg, occurrences, books;
+trigrams3 = ORDER trigrams2 BY avg DESC, trigram ASC;
+x = FOREACH trigrams3 GENERATE trigram,avg;
+x = LIMIT x 20;
+
+STORE x INTO 's3://cse6242oan-2019spring-vyshnavi3/output-small/' USING PigStorage('\t');
