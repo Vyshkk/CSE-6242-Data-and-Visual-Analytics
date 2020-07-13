@@ -1,0 +1,67 @@
+###############################################################################
+##                                                                           ##
+##  IMPORTANT NOTE: All accuracies must be reported with two decimal places  ##
+##  in the range of [0.00, 1.00], e.g. 0.78 and not 78, 78.00, 78%, etc.     ##
+##                                                                           ##
+###############################################################################
+
+**********************************************
+Q 3.1
+
+Linear Regression - Training Accuracy:0.64 
+Linear Regression - Testing Accuracy:0.63
+
+Random Forest - Training Accuracy: 0.99
+Random Forest - Testing Accuracy: 0.90
+
+SVM - Training Accuracy: 0.71
+SVM - Testing Accuracy: 0.71
+
+**********************************************
+
+Q 3.2 Hyperparameter Tuning
+
+Random Forest - n_estimators values tested (at least 3): [200,250,300,350,400]
+Random Forest - max_depth values tested (at least 3): [50,60,70,80,90,100]
+
+Random Forest - Best combination of parameter values - n_estimators:350 
+Random Forest - Best combination of parameter values - max_depth: 70
+
+Random Forest - Testing Accuracy before tuning (default parameters):.90
+Random Forest - Testing Accuracy after tuning:.926
+
+SVM - Kernel Values tested: ['linear','rbf']
+SVM - C values tested (at Least 3): [.001,.01,.1,10,100]
+SVM - Best combination of parameter values - Kernel: rbf
+SVM - Best combination of parameter values - C: 100
+
+*********************************************
+
+Q 3.3
+
+SVM - Highest mean testing/cross-validated accuracy (best score): 0.819
+SVM - Mean train score: 0.8319
+SVM Mean fit time: 5.811
+
+*********************************************
+
+Q 3.4 Feature Importance - WITH THE MODEL TRAINED IN Q 3.1
+
+Random Forest  - Most important feature (e.g. X5): X7
+Random Forest  - Least important feature (e.g. X1): X9
+
+*********************************************
+
+Q 3.5
+
+Best Classifier and why (in at most 50 words): 
+The best classifier in terms of accuracy is definitely Random Forest Classifier with an accuracy of nearly 93% when compared to SVM with only 83%. But in terms of fit time SVM is much more faster with a reasonable accuracy of 83% than Random Forest with around 350 trees each with a depth of 70. For an application with time constraint SVM would be a better fit while an application which demands accuracy of results random forest classifier is a better choice.
+
+*********************************************
+
+Q 3.6 Principal Component Analysis
+
+"PCA - Percentage of variance explained by each of the selected components (enter the entire array as [0.12, …, 0.012])": [.505, .376, .117, .000045, .0000192, .0000112, .00000678, .00000188, .00000154, .000000824, .0000007, .000000627, .000000347, .000000309]
+"PCA - Singular values corresponding to each of the selected components (enter the entire array as [0.09, …, 0.037])": [886690.550, 765870.221, 428019.714, 8460.038, 5477.245, 4180.815, 3249.689, 1714.821, 1548.481, 1132.559, 1044.012, 987.874, 735.570, 694.050]
+
+*********************************************
