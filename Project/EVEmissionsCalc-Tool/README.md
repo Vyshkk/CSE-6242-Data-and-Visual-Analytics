@@ -1,3 +1,5 @@
+# This work was done as part of Data and Visual Analytics coursework in collaboration with 3 other members, Michael Karsten, Erich Rasch and Corey McCann.
+
 # Vehicle Lifecycle Cost and Emission Impact Tool
 To educate consumers on the effective environmental and financial impact of their vehicle use.
 
